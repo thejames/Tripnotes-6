@@ -1,0 +1,72 @@
+<%= form_with(model: trip, local: true, class: 'needs-validation', html: {novalidate: true}) do |f| %>
+
+	<% if trip.errors.any? %>
+	<div id="error_explanation">
+		<h2><%= pluralize(trip.errors.count, "error") %> prohibited this trip from being saved:</h2>
+
+		<ul>
+			<% trip.errors.full_messages.each do |message| %>
+			<li><%= message %></li>
+			<% end %>
+		</ul>
+	</div>
+	<% end %>
+
+	<!-- <div class="field"> -->
+	<%= f.label :name %>
+	<%= f.text_field :name, class: 'form-control', required: true %>
+	<div class="invalid-feedback">
+		You need to name this thing
+	</div>
+
+	<div class="input-group mt-3 mb-3">
+		<div class="input-group-prepend">
+			<!-- <label class="input-group-text" for="inputGroupSelect01">Options</label> -->
+			<%= f.label :company_name, class: 'input-group-text' %>
+		</div>
+		<%= f.select :company_name, Trip::COMPANY_NAMES, {}, { class: 'custom-select' } %>
+	</div>
+
+	<div class="custom-control custom-switch">
+		<%= f.check_box :is_personal, class: 'custom-control-input' %>
+		<%= f.label :is_personal, class: 'custom-control-label', name: 'Is this a personal trip?' %>
+	</div>
+
+	<div class="custom-control custom-switch">
+		<%= f.check_box :is_paid, class: 'custom-control-input' %>
+		<%= f.label :is_paid, class: 'custom-control-label', name: 'Have you been paid?' %>
+	</div>
+
+	<div class="form-row">
+		<%= f.label :description %>
+		<%= f.text_area :description, class: 'form-control' %>
+	</div>
+
+	<div class="form-row">
+		<%= f.label :routing %>
+		<%= f.text_field :routing, class: 'form-control', required: true %>
+		<div class="invalid-feedback">
+			At least tell me the expected route
+		</div>
+	</div>
+
+	<div class="form-row">
+		<%= f.label :tripit_link %>
+		<%= f.text_field :tripit_link, class: 'form-control' %>
+	</div>
+
+	<div class="form-row">
+		<%= f.label :start_date %>
+		<%= f.datetime_select :start_date%>
+	</div>
+
+	<div class="form-row">
+		<%= f.label :end_date %>
+		<%= f.datetime_select :end_date%>
+	</div>
+
+	<div class="actions">
+		<%= f.submit class: 'btn btn-primary' %>
+		<%= link_to 'Cancel', trips_path, class: 'btn btn-outline-secondary' %>
+	</div>
+<% end %>

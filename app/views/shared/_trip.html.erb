@@ -1,0 +1,45 @@
+<tr>
+	<td width="200px">
+		<%= link_to trip.name, trip_path(trip) %>
+		<% if !trip.company_name.empty? -%>
+			<span class="text-muted"> &mdash; <%= trip.company_name %></span>
+		<% end -%>
+		<% if !trip.is_paid && !trip.is_personal -%>
+			<span class="badge badge-danger" data-reflex="click->PaidReflex#change" data-id="<%= trip.id %>" data-is_paid="true">unpaid</span>
+			<h3><i class="glyphicon glyphicon-remove" aria-hidden="true"></i> $<%= trip.invoices.all.sum{ |e| e.amount.to_i } %> Outstanding</h3>
+		<% elsif trip.is_paid? && trip.start_date < Time.now %>
+			<span class="badge badge-success"data-reflex="click->PaidReflex#change" data-id="<%= trip.id %>" data-is_paid="false">paid</span>
+		<% end -%>
+	</td>
+	<td><span class="badge badge-secondary"><%= trip.start_date.strftime('%d %b %Y') %></span></td>
+	<td><span class="badge badge-secondary"><%= trip.end_date.strftime('%d %b %Y') %></span></td>
+	<td width="100px">
+		<div class="btn-group btn-group-sm" role="group" aria-label="...">
+			<%= link_to trip_path(trip), class: 'btn btn-outline-primary' do %><i class="far fa-eye"></i><% end %>
+			<%= link_to edit_trip_path(trip), class: 'btn btn-outline-secondary' do %><i class="far fa-edit"></i><% end %>
+		</div>
+	</td>
+</tr>
+<tr class="text-muted">
+	<td>
+		<% if trip.start_date > Date.today  %>
+			<%= pluralize(days_until(trip.start_date), "day") %> until this trip!
+		<% else %>
+		<span class="text-muted"><%= trip.description %></span>
+		<% end %>
+	</td>
+	<td><%= distance_of_time_in_words(trip.start_date, trip.end_date + 1.day) %></td>
+	<td><%= trip.routing %></td>
+	<td>
+		<% if !trip.notes.empty? %>
+			<%= trip.notes.size %> <i class="far fa-comment"></i>
+		<% end %>
+		<% if !trip.links.empty? %>
+			<%= trip.links.size %> <i class="fas fa-link"></i>
+		<% end %>
+		<%# if !trip.images.empty? %>
+		<%# trip.images.size %> <i class="Xfar Xfa-images"></i>
+		<%# end %>
+	</td>
+</tr>
+

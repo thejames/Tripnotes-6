@@ -1,0 +1,26 @@
+<%# ------------------------------------------------------------------------ begin main content %>
+
+<h1>Listing invoices</h1>
+
+<table>
+	<tr>
+		<th>Description</th>
+		<th>Amount</th>
+		<th>Is income</th>
+		<th>Trip</th>
+		<th></th>
+		<th></th>
+		<th></th>
+	</tr>
+
+	<% @invoices.each do |invoice| %>
+	<tr>
+		<td><%= invoice.description %></td>
+		<td><%= invoice.amount %></td>
+		<td><%= invoice.is_income %></td>
+		<td><%= invoice.trip %></td>
+		<td><%= link_to 'Edit', edit_trip_invoice_path(invoice.trip, invoice), class: 'btn btn-light' %></td>
+		<td><%= link_to 'Destroy', [invoice.trip, invoice], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-secondary' %></td>
+	</tr>
+	<% end %>
+</table>

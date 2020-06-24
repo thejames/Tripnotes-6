@@ -1,0 +1,12 @@
+<% @trip.invoices.each do |invoice| %>
+	<% if invoice.persisted? %>
+
+	<dd id="invoice_<%= invoice.id %>">
+		<span><%= number_to_currency invoice.amount %> &mdash; <%= invoice.description %>
+			<% if invoice.is_income? %>Income<% else %>Expense<% end %>
+
+		 - <%= link_to "X", [invoice.trip, invoice], method: :delete, data: { confirm: 'Are you sure?' } %>
+		</span>
+	</dd>
+	<% end -%>
+<% end -%>

@@ -1,0 +1,17 @@
+<div class="comment-metadata col-3">
+
+	<h3><%= note.note_category.name %></h3>
+	<%= note.trip.user.email %>
+
+	<% if params[:controller] == 'trips' %>
+		<%= link_to trip_path(note.trip, view: "notes", anchor: "note_#{note.id}") do %>
+			<i class="fas fa-link"></i>
+		<% end %>
+		<div class="text-muted when-posted"><%= time_ago_in_words note.created_at %> ago</div>
+		<div class="posted-on">
+			<div>
+				<%= note.created_at.strftime("%d %b %Y") %>
+			</div>
+		</div>
+	<% end -%>
+</div><!-- /comment-metadata col-3 -->

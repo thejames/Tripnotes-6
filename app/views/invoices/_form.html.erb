@@ -1,0 +1,35 @@
+<%= form_for([@invoice.trip, @invoice]) do |f| %>
+<% if @invoice.errors.any? %>
+<div id="error_explanation">
+	<h2><%= pluralize(@invoice.errors.count, "error") %> prohibited this invoice from being saved:</h2>
+
+	<ul>
+		<% @invoice.errors.full_messages.each do |msg| %>
+		<li><%= msg %></li>
+		<% end %>
+	</ul>
+</div>
+<% end %>
+
+<div class="input-group mb-3">
+	<div class="input-group-prepend">
+		<span class="input-group-text">$</span>
+	</div>
+	<!-- <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"> -->
+	<%= f.text_field :amount, class: 'form-control'  %>
+	<div class="input-group-append">
+		<span class="input-group-text">.00</span>
+	</div>
+</div>
+
+<div class="custom-control custom-switch">
+	<%= f.check_box :is_income, class: 'custom-control-input', checked: true %>
+	<%= f.label :is_income, class: 'custom-control-label', name: 'Is this income?' %>
+
+  <!-- <label class="custom-control-label" for="customSwitch1">Is this income?</label> -->
+</div>
+
+<div class="actions">
+	<%= f.submit class: 'btn btn-primary btn-sm' %>
+</div>
+<% end %>

@@ -1,0 +1,91 @@
+<% title @trip.name + ' | ' + @trip.start_date.strftime('%d %b %Y')  %>
+
+<% content_for :sidebar do %>
+	<% if @trip.is_paid %>
+		<h3>This invoice is paid</h3>
+	<% end -%>
+	<%# link_to "Add Image", new_trip_image_path(@trip), class: 'btn btn-primary' %>
+	<% if @trip.start_date >= Date.today %>
+		<h2>In <%= distance_of_time_in_words(@trip.start_date, ( Date.today )) %>!!</h2>
+		<hr>
+	<% end %>
+
+	<h2>Links</h2>
+	<dl id="link_list">
+		<%= render "shared/link" %>
+	</dl>
+
+	<%= link_to "New Link", new_trip_link_path(@trip), id: "new_link", class: 'btn btn-mini btn-primary btn-sm' %>
+	<hr>
+
+	<% if !@trip.is_personal %>
+		<h2>Invoiced Amt</h2>
+		<dl id="invoice_list">
+		 <%= render "shared/invoice" %>
+		</dl>
+
+		<h2>Total Invoice <%= number_to_currency( @invoices_amount ) %></h2>
+		<h5>Add Invoice</h5>
+		<%= render "invoices/form" %>
+	<% end %><!-- /if is_personal -->
+<% end %>
+<%# ------------------------------------------------------------------------ begin main content %>
+
+<h2><%= @trip.name %></h2>
+<p class="text-muted">
+	<%= @trip.description %>
+</p>
+
+<div class="row">
+	<div class="col-10">
+		<span class="badge badge-primary"><%= @trip.company_name %></span>
+		<% if @trip.is_paid? %>
+				<span class="badge badge-success"data-reflex="click->PaidReflex#change" data-id="<%= @trip.id %>" data-is_paid="false">paid</span>
+		<% elsif !@trip.is_paid && !@trip.is_personal %>
+			<span class="badge badge-danger" data-reflex="click->PaidReflex#change" data-id="<%= @trip.id %>" data-is_paid="true">unpaid</span>
+		<% end -%>
+		<%= link_to "http://www.gcmap.com/mapui?P=" + @trip.routing + "&MS=bm&DU=mi&SG=500&SU=kts", class: 'badge badge-secondary' do %>
+			<i class="fas fa-plane"></i> Flight Map
+		<% end %>
+		<% if @trip.tripit_link? %>
+			<%= link_to "TripIt", @trip.tripit_link, class: 'badge badge-secondary' %>
+		<% end %>
+	</div>
+</div><!-- /row -->
+
+<div class="row justify-content-md-center mb-10">
+	<ul class="pager list-inline">
+		<% if @trip.previous_trip %>
+			<li class="previous list-inline-item"><%= link_to @trip.previous_trip do %><i class="fas fa-arrow-left"></i> <% end %>
+			</li>
+		<% end %>
+
+		<h3 class="text-info"><%= @trip.start_date.strftime('%d %b %Y') %></h3>
+		<span class="text-muted elevated-baseline"> - <%= trip_length %> - </span>
+		<h3 class="text-info"><%= @trip.end_date.strftime('%d %b %Y') %></h3>
+
+		<% if @trip.next_trip %>
+			<li class="next list-inline-item"><%= link_to @trip.next_trip, title: 'Next' do %> <i class="fas fa-arrow-right"></i><% end %></li>
+		<% else %>
+			<li class="next disabled list-inline-item">-></li>
+		<% end %>
+	</ul>
+</div><!-- /row -->
+
+<div class="row">
+	<div class="col-4 btn-group btn-group-sm">
+		<%= link_to edit_trip_path(@trip), class: 'btn btn-outline-secondary' do %><i class="far fa-edit"></i><% end %>
+		<%= link_to trips_path, class: 'btn btn-outline-dark' do %><i class="fas fa-th-list"></i><% end %>
+		<%= link_to trip_path(@trip), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger' do %><i class="far fa-trash-alt"></i><% end %>
+	</div>
+</div>
+
+<hr>
+
+<div class="row">
+	<h2 class="col-12">Notes:</h2>
+	<div class="notes col-12">
+		<%= render 'shared/note' %>
+		<%= render 'notes/form' %>
+	</div><!-- /notes -->
+</div>

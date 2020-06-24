@@ -1,0 +1,91 @@
+<% content_for :sidebar do %>
+	<ul class="list-group list-group-flush">
+		<% if @all_trips.ytd.unpaid.count > 0 %>
+			<li class="list-group-item">You have <%= @all_trips.ytd.unpaid.count %> unpaid Trips!</li>
+			<li class="list-group-item"><%= number_to_currency @ytd_unpaid_income %> income</li>
+			<li class="list-group-item"><%= number_to_currency @ytd_unpaid_expenses %> expenses</li>
+			<li class="list-group-item"><%= number_to_currency @ytd_unpaid_total %> <span class="grey"> total due</span></li>
+		<% end %>
+		<li class="list-group-item"><%= number_to_currency @ytd_income %> ytd income</li>
+	</ul>
+<% end %>
+
+<%# ------------------------------------------------------------------------ begin main content %>
+<h2 class="card-title d-flex justify-content-between mb-4">
+	TripNotes 6 - The legend continues
+</h2>
+
+
+<% if !@current_trips.empty? %>
+	<h3>Your Current Trips</h3>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th width="300px"></th>
+				<th>Start Date</th>
+				<th>End Date</th>
+				<th width="124px"></th>
+			</tr>
+		</thead>
+		<tbody>
+			<%= render partial: "shared/trip", collection: @current_trips, as: :trip %>
+		</tbody>
+	</table>
+<% end -%>
+
+<% if !@upcoming_trips.empty? %>
+	<h3>Your Upcoming Trips</h3>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th width="300px"></th>
+				<th>Start Date</th>
+				<th>End Date</th>
+				<th width="124px"></th>
+			</tr>
+		</thead>
+		<tbody>
+			<%= render partial: "shared/trip", collection: @upcoming_trips, as: :trip %>
+		</tbody>
+	</table>
+<% else %>
+	<h1>You have no upcoming trips...</h1>
+<% end -%>
+
+<div class="row text-right justify-content-around">
+	<div class="col-3">
+		You&rsquo;ve logged
+		<h1 class="huge"><%= @all_trips.ytd.count %></h1>
+		Trips this year <a href="http://www.gcmap.com/mapui?P=<% @all_trips.business.ytd.each do |mapping| %><%= mapping.routing + "," %><% end %>&DU=mi&SG=500&SU=mph" class="small"><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i></a>
+	</div>
+
+	<div class="col-4 text-left">
+		<dl class="row">
+			<dt class="col-1"><%= @all_trips.ytd.count %></dt>
+				<dd class="col-10">Business</dd>
+			<dt class="col-1"><%= @all_trips.personal.ytd.count %></dt>
+				<dd class="col-10">Personal</dd>
+			<dt class="col-1"><%= @all_trips.ytd.unpaid.count %></dt>
+				<dd class="col-10">Unpaid</dd>
+		</dl>
+	</div>
+</div>
+
+<div class="row text-right justify-content-around">
+	<div class="col-3">
+		And in total:
+		<h1 class="huge"><%= @all_trips.count %></h1>
+		Trips <a href="http://www.gcmap.com/mapui?P=<% @all_trips.each do |mapping| %><%= mapping.routing + "," %><% end %>&DU=mi&SG=500&SU=mph" class="small"><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i></a>
+	</div>
+
+	<div class="col-4 text-left">
+		<dl class="row">
+			<dt class="col-1"><%= @all_trips.business.count %></dt>
+				<dd class="col-10">Business</dd>
+			<dt class="col-1"><%= @all_trips.personal.count %></dt>
+				<dd class="col-10">Personal</dd>
+			<dt class="col-1"><%= @all_trips.unpaid.count %></dt>
+				<dd class="col-10">Unpaid</dd>
+		</dl>
+	</div>
+</div><!-- /row -->

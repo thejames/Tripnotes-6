@@ -1,0 +1,20 @@
+<% @trip.notes.each do |note| %>
+	<% if note.persisted? %>
+	<div class="row" id="note_<%= note.id %>">
+		<%= render "shared/note_header", note: note %>
+			<div class="col-6">
+				<div class="note_content">
+					<div class="">
+						<%= note.content %>
+					</div><!-- / -->
+					<div class="actions well well-small">
+						<div class="btn-group">
+							<%= link_to "Edit", edit_trip_note_path(note.trip, note), class: 'btn btn-sm btn-dark' %>
+							<%= link_to "Delete", trip_note_path(note.trip, note), method: :delete, confirm: 'Are you sure?', class: 'btn btn-sm btn-danger' %>
+						</div><!-- /btn-gro -->
+					</div><!-- /well -->
+				</div><!-- /note_content -->
+			</div><!-- /col-6 -->
+		</div><!-- /row -->
+	<% end -%>
+<% end -%>

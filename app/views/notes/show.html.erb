@@ -1,0 +1,18 @@
+<p>
+  <b>Content:</b>
+  <%= @note.content %>
+</p>
+
+<p>
+  <b>Category:</b>
+  <%= @note.category %>
+</p>
+
+<p>
+  <b>Trip:</b>
+  <%= @note.trip %>
+</p>
+
+
+<%= link_to 'Edit', edit_trip_note_path(@note.trip, @note) %> |
+<%= link_to 'Back', trip_notes_path(@note.trip) %>

@@ -1,0 +1,36 @@
+<% content_for :sidebar do %>
+<h2><%= @trips.count %> trips total</h2>
+<h2><%= @trips_this_year.count %> trips <abbr title="Year to Date">ytd</abbr></h2>
+<p>
+	<a href="http://www.gcmap.com/mapui?P=<% @trips_this_year.each do |trips| %><%= trips.routing + "," %><% end %>&DU=mi&SG=500&SU=mph">YTD trips mapped</a>
+</p>
+
+<%= link_to 'Add A Trip', new_trip_path, :class => 'btn btn-primary' %>
+<dl>
+	<% @trip_years.sort.reverse.each do |year, trips| %>
+	<dd><strong><a href="/trips/<%# @trip_category.downcase %>?year=<%= year.strftime('%Y') %>"><%= year.strftime('%Y') %></a></strong>: <%= trips.size %></dd>
+	<% end %>
+</dl>
+<% end %><!-- end .sidebar -->
+<%# ------------------------------------------------------------------------ begin main content %>
+
+<h1 title="are belong to us">All Your <%= @trip_category %> Trips</h1>
+<%= link_to 'New Trip', new_trip_path, class: 'btn btn-primary' %>
+
+<% @trip_months.sort.reverse.each do |month, trips| %>
+	<h3><%= month.strftime('%B %Y') %></h3>
+	<table class="table table-striped flight-details">
+		<thead>
+			<tr>
+				<th width="300px"></th>
+				<th>Start Date</th>
+				<th>End Date</th>
+				<th width="125px"></th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<%= render partial: "shared/trip", collection: trips, as: :trip %>
+		</tbody>
+	</table>
+<% end -%>

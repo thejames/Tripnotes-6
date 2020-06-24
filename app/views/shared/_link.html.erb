@@ -1,0 +1,12 @@
+<% @trip.links.each do |link| %>
+	<% if link.persisted? %>
+		<dd id="link_<%= link.id %>">
+			<%= link_to link.title, link.url %>
+			<span class="pull-right">
+				<%= link_to edit_trip_link_path(link) do %><i class="glyphicon glyphicon-edit" aria-hidden="true"></i><% end %>
+				<%# link_to link, method: :delete, data: {confirm: "Are you sure?"} do %><i class="glyphicon glyphicon-trash" aria-hidden="true"></i><%# end %>
+				- <%= link_to "X", [link.trip, link], method: :delete, data: { confirm: 'Are you sure?' } %>
+			</span>
+		</dd>
+	<% end -%>
+<% end -%>
