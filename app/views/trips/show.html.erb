@@ -15,7 +15,7 @@
 		<%= render "shared/link" %>
 	</dl>
 
-	<%= link_to "New Link", new_trip_link_path(@trip), id: "new_link", class: 'btn btn-mini btn-primary btn-sm' %>
+	<%= link_to "New Link", new_trip_link_path(@trip), id: "new_link", class: 'btn btn-mini btn-outline-primary btn-sm' %>
 	<hr>
 
 	<% if !@trip.is_personal %>
@@ -24,7 +24,7 @@
 		 <%= render "shared/invoice" %>
 		</dl>
 
-		<h2>Total Invoice <%= number_to_currency( @invoices_amount ) %></h2>
+		<h2>Total Invoice <span class="<%= @trip.is_paid ? 'green' : 'red' %>"><%= number_to_currency( @invoices_amount ) %></span></h2>
 		<h5>Add Invoice</h5>
 		<%= render "invoices/form" %>
 	<% end %><!-- /if is_personal -->
