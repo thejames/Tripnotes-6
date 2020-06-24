@@ -9,8 +9,8 @@
 					</div><!-- / -->
 					<div class="actions well well-small">
 						<div class="btn-group">
-							<%= link_to "Edit", edit_trip_note_path(note.trip, note), class: 'btn btn-sm btn-dark' %>
-							<%= link_to "Delete", trip_note_path(note.trip, note), method: :delete, confirm: 'Are you sure?', class: 'btn btn-sm btn-danger' %>
+							<%= link_to edit_trip_note_path(note.trip, note), class: 'btn btn-sm btn-outline-secondary' do %><i class="far fa-edit"></i><% end %>
+							<%= link_to trip_note_path(note.trip, note), method: :delete, confirm: 'Are you sure?', class: 'btn btn-sm btn-outline-danger' do %><i class="far fa-trash-alt"></i><% end %>
 						</div><!-- /btn-gro -->
 					</div><!-- /well -->
 				</div><!-- /note_content -->
