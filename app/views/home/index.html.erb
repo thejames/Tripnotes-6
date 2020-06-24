@@ -56,7 +56,8 @@
 	<div class="col-3">
 		You&rsquo;ve logged
 		<h1 class="huge"><%= @all_trips.ytd.count %></h1>
-		Trips this year <a href="http://www.gcmap.com/mapui?P=<% @all_trips.business.ytd.each do |mapping| %><%= mapping.routing + "," %><% end %>&DU=mi&SG=500&SU=mph" class="small"><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i></a>
+		<%= link_to  trips_path(year: Time.now.year) do %><i class="fas fa-arrow-down"></i><% end %>
+		Trips this year <a href="http://www.gcmap.com/mapui?P=<% @all_trips.business.ytd.each do |mapping| %><%= mapping.routing + "," %><% end %>&DU=mi&SG=500&SU=mph" class="small"><i class="far fa-map"></i></i></a>
 	</div>
 
 	<div class="col-4 text-left">
@@ -75,7 +76,7 @@
 	<div class="col-3">
 		And in total:
 		<h1 class="huge"><%= @all_trips.count %></h1>
-		Trips <a href="http://www.gcmap.com/mapui?P=<% @all_trips.each do |mapping| %><%= mapping.routing + "," %><% end %>&DU=mi&SG=500&SU=mph" class="small"><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i></a>
+		Trips <a href="http://www.gcmap.com/mapui?P=<% @all_trips.each do |mapping| %><%= mapping.routing + "," %><% end %>&DU=mi&SG=500&SU=mph" class="small"><i class="far fa-map"></i></a>
 	</div>
 
 	<div class="col-4 text-left">
