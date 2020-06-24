@@ -16,7 +16,7 @@ class TripsController < ApplicationController
 		end
 		@trip_years = @trips.group_by{ |t| t.start_date.beginning_of_year }
 		@trip_months = @trips.group_by{ |t| t.start_date.beginning_of_month }
-		@trips_this_year = @trips
+		@trips_this_year = current_user.trips.ytd
 	end
 
 	def business
