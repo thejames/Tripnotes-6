@@ -5,7 +5,7 @@ class NoteCategoriesController < ApplicationController
 
 	# GET /note_categories
 	def index
-		@note_categories = NoteCategory.all
+		@note_categories = NoteCategory.all.sort_by(&:name)
 	end
 
 	# GET /note_categories/1
