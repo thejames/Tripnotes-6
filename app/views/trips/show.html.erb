@@ -24,7 +24,7 @@
 		 <%= render "shared/invoice" %>
 		</dl>
 
-		<h2>Total Invoice <span class="<%= @trip.is_paid ? 'green' : 'red' %>"><%= number_to_currency( @invoices_amount ) %></span></h2>
+		<h2>Total Invoice <span class="<%= @trip.is_paid ? 'green' : 'red' %>"><%= @invoices_amount %></span></h2>
 		<h5>Add Invoice</h5>
 		<%= render "invoices/form" %>
 	<% end %><!-- /if is_personal -->
