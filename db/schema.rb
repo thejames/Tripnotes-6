@@ -17,11 +17,11 @@ ActiveRecord::Schema.define(version: 2020_06_23_044528) do
 
   create_table "invoices", force: :cascade do |t|
     t.string "description"
+    t.money "amount", scale: 2
     t.boolean "is_income"
     t.bigint "trip_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "amount"
     t.index ["trip_id"], name: "index_invoices_on_trip_id"
   end
 
