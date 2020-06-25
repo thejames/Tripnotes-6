@@ -16,7 +16,6 @@ ActiveRecord::Schema.define(version: 2020_06_23_044528) do
   enable_extension "plpgsql"
 
   create_table "invoices", force: :cascade do |t|
-    t.string "description"
     t.money "amount", scale: 2
     t.boolean "is_income"
     t.bigint "trip_id", null: false
@@ -67,6 +66,7 @@ ActiveRecord::Schema.define(version: 2020_06_23_044528) do
   end
 
   create_table "users", force: :cascade do |t|
+    t.string "username", default: "", null: false
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -76,6 +76,7 @@ ActiveRecord::Schema.define(version: 2020_06_23_044528) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["username"], name: "index_users_on_username", unique: true
   end
 
   add_foreign_key "invoices", "trips"
