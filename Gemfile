@@ -35,8 +35,8 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 end
 
-group :production
-  gem 'redis'
+group :production do
+  gem 'redis', '~> 3.3', '>= 3.3.1'
 end
 
 group :development do
