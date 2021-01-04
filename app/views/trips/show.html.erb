@@ -44,9 +44,11 @@
 		<% elsif !@trip.is_paid && !@trip.is_personal %>
 			<span class="badge badge-danger" data-reflex="click->PaidReflex#change" data-id="<%= @trip.id %>" data-is_paid="true">unpaid</span>
 		<% end -%>
-		<%= link_to "http://www.gcmap.com/mapui?P=" + @trip.routing + "&MS=bm&DU=mi&SG=500&SU=kts", class: 'badge badge-secondary' do %>
-			<i class="fas fa-plane"></i> Flight Map
-		<% end %>
+		<% if @trip.routing? %>
+			<%= link_to "http://www.gcmap.com/mapui?P=" + @trip.routing + "&MS=bm&DU=mi&SG=500&SU=kts", class: 'badge badge-secondary' do %>
+				<i class="fas fa-plane"></i> Flight Map
+			<% end %>
+		<% end #end if -%>
 		<% if @trip.tripit_link? %>
 			<%= link_to "TripIt", @trip.tripit_link, class: 'badge badge-secondary' %>
 		<% end %>
