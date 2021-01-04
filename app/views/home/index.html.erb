@@ -76,7 +76,7 @@
 	<div class="col-3">
 		And in total:
 		<h1 class="huge"><%= @all_trips.count %></h1>
-		Trips <a href="http://www.gcmap.com/mapui?P=<% @all_trips.each do |mapping| %><%= mapping.routing + "," %><% end %>&DU=mi&SG=500&SU=mph" class="small"><i class="far fa-map"></i></a>
+		Trips <a href="http://www.gcmap.com/mapui?P=<% @all_trips.each do |mapping| %><%# mapping.routing + "," %><% end %>&DU=mi&SG=500&SU=mph" class="small"><i class="far fa-map"></i></a>
 	</div>
 
 	<div class="col-4 text-left">
