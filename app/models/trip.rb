@@ -24,5 +24,5 @@ class Trip < ApplicationRecord
 	  self.class.where("end_date > ?", end_date).order("end_date ASC").first
 	end
 
-	COMPANY_NAMES = ['Parkview', 'Global Med', '360', 'Air Escort Medical', 'Air Care 1']
+	COMPANY_NAMES = ['','Parkview', 'Global Med', '360', 'Air Escort Medical', 'Air Care 1']
 end

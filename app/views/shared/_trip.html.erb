@@ -1,14 +1,16 @@
 <tr>
 	<td width="200px">
-		<%= link_to trip.name, trip_path(trip) %>
-		<% if !trip.company_name.blank? -%>
-			<span class="text-muted"> &mdash; <%= trip.company_name %></span>
-		<% end -%>
-		<% if !trip.is_paid && !trip.is_personal -%>
-			<span class="badge badge-danger" data-reflex="click->PaidReflex#change" data-id="<%= trip.id %>" data-is_paid="true">unpaid</span>
-			<h3><i class="glyphicon glyphicon-remove" aria-hidden="true"></i> $<%= trip.invoices.all.sum{ |e| e.amount.to_i } %> Outstanding</h3>
-		<% elsif trip.is_paid? && trip.start_date < Time.now %>
-			<span class="badge badge-success"data-reflex="click->PaidReflex#change" data-id="<%= trip.id %>" data-is_paid="false">paid</span>
+		<% if !trip.is_personal -%>
+			<%= link_to trip.name, trip_path(trip) %>
+			<% if !trip.company_name.blank? -%>
+				<span class="text-muted"> &mdash; <%= trip.company_name %></span>
+			<% end -%>
+			<% if !trip.is_paid -%>
+				<span class="badge badge-danger" data-reflex="click->PaidReflex#change" data-id="<%= trip.id %>" data-is_paid="true">unpaid</span>
+				<h3><i class="glyphicon glyphicon-remove" aria-hidden="true"></i> $<%= trip.invoices.all.sum{ |e| e.amount.to_i } %> Outstanding</h3>
+			<% elsif trip.is_paid? && trip.start_date < Time.now %>
+				<span class="badge badge-success"data-reflex="click->PaidReflex#change" data-id="<%= trip.id %>" data-is_paid="false">paid</span>
+			<% end -%>
 		<% end -%>
 	</td>
 	<td><span class="badge badge-secondary"><%= trip.start_date.strftime('%d %b %Y') %></span></td>
