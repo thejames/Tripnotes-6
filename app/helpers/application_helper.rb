@@ -6,10 +6,10 @@ module ApplicationHelper
 	  end
 	end
 
-	# def markdown(text)
-	#   options = [:hard_wrap, :filter_html, :autolink, :no_intraemphasis, :fenced_code, :gh_blockcode]
-	#   Redcarpet.new(text, *options).to_html.html_safe
-	# end
+	def markdown(text)
+	  options = [:hard_wrap, :filter_html, :autolink, :no_intraemphasis, :fenced_code, :gh_blockcode]
+	  Redcarpet.new(text, *options).to_html.html_safe
+	end
 
 	def days_until(event_date)
 	  end_date = event_date.to_date
