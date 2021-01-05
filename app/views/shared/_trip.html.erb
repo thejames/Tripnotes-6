@@ -1,7 +1,7 @@
 <tr>
 	<td width="200px">
-		<% if !trip.is_personal -%>
 			<%= link_to trip.name, trip_path(trip) %>
+		<% if !trip.is_personal -%>
 			<% if !trip.company_name.blank? -%>
 				<span class="text-muted"> &mdash; <%= trip.company_name %></span>
 			<% end -%>
