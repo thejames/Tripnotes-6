@@ -2,7 +2,7 @@
 <h2><%= @trips.count %> trips total</h2>
 <!-- <h2><%= @trips_this_year.count %> trips <abbr title="Year to Date">ytd</abbr></h2> -->
 <p>
-	<a href="http://www.gcmap.com/mapui?P=<% @trips.each do |trips| %><%= trips.routing + "," %><% end %>&DU=mi&SG=500&SU=mph">YTD trips mapped</a>
+	<a href="http://www.gcmap.com/mapui?P=<% @trips_this_year.each do |trips| %><%= trips.routing + "," %><% end %>&DU=mi&SG=500&SU=mph">YTD trips mapped</a>
 </p>
 
 <%= link_to 'Add A Trip', new_trip_path, :class => 'btn btn-outline-primary btn-block' %>
