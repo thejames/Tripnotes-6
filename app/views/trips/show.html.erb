@@ -38,11 +38,13 @@
 
 <div class="row">
 	<div class="col-10">
-		<span class="badge badge-primary"><%= @trip.company_name %></span>
-		<% if @trip.is_paid? %>
-				<span class="badge badge-success"data-reflex="click->PaidReflex#change" data-id="<%= @trip.id %>" data-is_paid="false">paid</span>
-		<% elsif !@trip.is_paid && !@trip.is_personal %>
-			<span class="badge badge-danger" data-reflex="click->PaidReflex#change" data-id="<%= @trip.id %>" data-is_paid="true">unpaid</span>
+		<% if !@trip.is_personal %>
+			<span class="badge badge-primary"><%= @trip.company_name %></span>
+			<% if @trip.is_paid? %>
+					<span class="badge badge-success"data-reflex="click->PaidReflex#change" data-id="<%= @trip.id %>" data-is_paid="false">paid</span>
+			<% elsif !@trip.is_paid && !@trip.is_personal %>
+				<span class="badge badge-danger" data-reflex="click->PaidReflex#change" data-id="<%= @trip.id %>" data-is_paid="true">unpaid</span>
+			<% end -%>
 		<% end -%>
 		<% if @trip.routing? %>
 			<%= link_to "http://www.gcmap.com/mapui?P=" + @trip.routing + "&MS=bm&DU=mi&SG=500&SU=kts", class: 'badge badge-secondary' do %>
