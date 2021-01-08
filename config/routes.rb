@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 			get :personal
 			get :business
 			get :income
+			get :company
 		end
 		resources :notes
 		resources :invoices

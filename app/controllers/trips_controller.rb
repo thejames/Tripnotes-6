@@ -67,9 +67,24 @@ class TripsController < ApplicationController
 		end
 	end
 
-	def sum_amount
+	def sum_amount # this is for the income reporting
 		Trip.invoices.sum(:amount)
-		
+	end
+
+	def company
+
+		if !params[:year].blank?
+			start_params = params[:year] + "-01-01"
+			end_params = params[:year] + "-12-31"
+
+			@trips = current_user.trips.business.where("start_date > ? AND end_date < ? AND company_name = ?", start_params, end_params, "Global Med").sort_by(&:start_date)
+			@trip_category = params[:year].to_s
+		end
+		@trip_years = @trips.group_by{ |t| t.start_date.beginning_of_year }
+		@trip_months = @trips.group_by{ |t| t.start_date.beginning_of_month }
+		@trips_this_year = current_user.trips.ytd
+
+		render action: :index
 	end
 
 	# GET /trips/1
