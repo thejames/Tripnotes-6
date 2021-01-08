@@ -1,5 +1,5 @@
 class Trip < ApplicationRecord
-  has_many :links
+	has_many :links
 	has_many :invoices, dependent: :destroy
 	has_many :notes, dependent: :destroy
 	belongs_to :user
@@ -10,6 +10,7 @@ class Trip < ApplicationRecord
 	scope :paid, -> { where( is_paid: true ) }
 	scope :unpaid, -> { where( is_paid: false ) }
 	scope :ytd, -> { where(start_date: (Time.now.beginning_of_year - 1.day)..Time.now.midnight) }
+	# scope :requested_year, -> { where( "start_date > ? AND end_date < ?", params[:year] + "-01-01", params[:year] + "-12-31" ) }
 	scope :past, -> { where("start_date <= ?", Time.now ) }
 	scope :expenses, -> { where( invoices: {is_income: false} )}
 	scope :income, -> { where( invoices: {is_income: true} )}

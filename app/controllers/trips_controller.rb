@@ -46,6 +46,32 @@ class TripsController < ApplicationController
 		render action: :index
 	end
 
+	def income
+		if !params[:year].blank?
+			@page_title = params[:year].to_s + " Income"
+
+			start_params = params[:year] + "-01-01"
+			end_params = params[:year] + "-12-31"
+
+			# company_params = params[:company]
+			
+			# @income_by_company = current_user.trips.joins(:invoices).business.income.where("start_date > ? AND end_date < ?", start_params, end_params).group_by{ |t| t.company_name }.collect(:amount).sum
+			@companies_list = current_user.trips.business.where("start_date > ? AND end_date < ?", start_params, end_params).collect(&:company_name).uniq
+
+			@GMS_Income = current_user.trips.joins(:invoices).business.income.where("start_date > ? AND end_date < ? AND company_name = ?", start_params, end_params, "Global Med").sum(:amount)
+			# select * from trips where company_name = NAME, join invoices, sum amount 
+			# @income = Trip.invoices.sum
+			# @income_by_company = current_user.trips.joins(:invoices).business.income.where("start_date > ? AND end_date < ?", start_params, end_params).collect(&:company_name).uniq
+		else
+			@page_title = "YTD Income"
+		end
+	end
+
+	def sum_amount
+		Trip.invoices.sum(:amount)
+		
+	end
+
 	# GET /trips/1
 	def show
 		@note = @trip.notes.build
