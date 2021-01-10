@@ -92,7 +92,7 @@ class TripsController < ApplicationController
 		@note = @trip.notes.build
 		@invoice = @trip.invoices.build
 		@link = @trip.links.build
-		@invoices_amount = @trip.invoices.all.sum{ |e| e.amount.to_i }
+		@invoices_amount = @trip.invoices.all.sum{ |e| e.amount }
 	end
 
 	# GET /trips/new
