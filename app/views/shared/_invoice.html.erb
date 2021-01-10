@@ -2,7 +2,7 @@
 	<% if invoice.persisted? %>
 
 	<dd id="invoice_<%= invoice.id %>">
-		<span><%= invoice.amount %>
+		<span>$<%= invoice.amount %>
 			<% if invoice.is_income? %>Income<% else %>Expense<% end %>
 
 		 - <%= link_to "X", [invoice.trip, invoice], method: :delete, data: { confirm: 'Are you sure?' } %>
