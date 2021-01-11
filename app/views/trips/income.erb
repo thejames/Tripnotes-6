@@ -1,6 +1,6 @@
 <h3><%= @page_title %></h3>
 <%# @websites.includes(:domains).map{|website| website.domains.sum(:costs)}.sum %>
-<%= params[:company] %>: $<%= @The_Income %>
+<%= params[:company] %>: $<%= number_with_delimiter(@The_Income, :delimiter => ',') %>
 <hr>
 <%= @companies_list.sort.each do |company, trips| %>
 	<a href="/trips/income?company=<%= company %>&year=<%= params[:year] %>"><%= company %></a> | 
