@@ -49,7 +49,6 @@ class TripsController < ApplicationController
 	def income
 		if !params[:year].blank?
 			@page_title = params[:year].to_s + " Income"
-			@last_year = Date.today.years_ago(1).strftime("%Y")
 			
 			start_params = params[:year] + "-01-01"
 			end_params = params[:year] + "-12-31"
@@ -77,7 +76,6 @@ class TripsController < ApplicationController
 	end
 
 	def company
-
 		if !params[:year].blank?
 			start_params = params[:year] + "-01-01"
 			end_params = params[:year] + "-12-31"

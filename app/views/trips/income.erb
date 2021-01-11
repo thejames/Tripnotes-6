@@ -1,8 +1,7 @@
-<%= @last_year %>
 <h3><%= @page_title %></h3>
 <%# @websites.includes(:domains).map{|website| website.domains.sum(:costs)}.sum %>
 <%= params[:company] %>: <%= @The_Income %>
-
+<%= @The_Income %>
 <hr>
 <%= @companies_list.sort.each do |company, trips| %>
 	<a href="/trips/income?company=<%= company %>&year=<%= @last_year %>"><%= company %></a> | 

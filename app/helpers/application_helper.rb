@@ -1,4 +1,7 @@
 module ApplicationHelper
+	def last_year
+		Date.today.years_ago(1).strftime("%Y")
+	end
 
 	def pluralize_without_count(count, noun, text = nil)
 	  if count != 0
