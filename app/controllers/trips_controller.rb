@@ -49,16 +49,21 @@ class TripsController < ApplicationController
 	def income
 		if !params[:year].blank?
 			@page_title = params[:year].to_s + " Income"
-
+			@last_year = Date.today.years_ago(1).strftime("%Y")
+			
 			start_params = params[:year] + "-01-01"
 			end_params = params[:year] + "-12-31"
 
-			# company_params = params[:company]
+			if !params[:company].blank?
+				company_name = params[:company]
+			else
+				company_name = 'Parkview'
+			end
 			
 			# @income_by_company = current_user.trips.joins(:invoices).business.income.where("start_date > ? AND end_date < ?", start_params, end_params).group_by{ |t| t.company_name }.collect(:amount).sum
 			@companies_list = current_user.trips.business.where("start_date > ? AND end_date < ?", start_params, end_params).collect(&:company_name).uniq
 
-			@GMS_Income = current_user.trips.joins(:invoices).business.income.where("start_date > ? AND end_date < ? AND company_name = ?", start_params, end_params, "Global Med").sum(:amount)
+			@The_Income = current_user.trips.joins(:invoices).business.income.where("start_date > ? AND end_date < ? AND company_name = ?", start_params, end_params, company_name).sum(:amount)
 			# select * from trips where company_name = NAME, join invoices, sum amount 
 			# @income = Trip.invoices.sum
 			# @income_by_company = current_user.trips.joins(:invoices).business.income.where("start_date > ? AND end_date < ?", start_params, end_params).collect(&:company_name).uniq
@@ -76,10 +81,11 @@ class TripsController < ApplicationController
 		if !params[:year].blank?
 			start_params = params[:year] + "-01-01"
 			end_params = params[:year] + "-12-31"
-
-			@trips = current_user.trips.business.where("start_date > ? AND end_date < ? AND company_name = ?", start_params, end_params, "Global Med").sort_by(&:start_date)
-			@trip_category = params[:year].to_s
 		end
+		
+		@trips = current_user.trips.business.where("start_date > ? AND end_date < ? AND company_name = ?", start_params, end_params, "Global Med").sort_by(&:start_date)
+		@trip_category = params[:year].to_s
+
 		@trip_years = @trips.group_by{ |t| t.start_date.beginning_of_year }
 		@trip_months = @trips.group_by{ |t| t.start_date.beginning_of_month }
 		@trips_this_year = current_user.trips.ytd

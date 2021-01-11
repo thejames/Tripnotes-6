@@ -1,17 +1,11 @@
+<%= @last_year %>
 <h3><%= @page_title %></h3>
-@websites.includes(:domains).map{|website| website.domains.sum(:costs)}.sum
+<%# @websites.includes(:domains).map{|website| website.domains.sum(:costs)}.sum %>
+<%= params[:company] %>: <%= @The_Income %>
 
 <hr>
-GMS: <%= @GMS_Income %>
-<br>
-<hr>
-
-<br>
 <%= @companies_list.sort.each do |company, trips| %>
-<%= company %> <%# company.includes(:invoices).map{|company| company.invoice.sum(:amount)}.sum %>
+	<a href="/trips/income?company=<%= company %>&year=<%= @last_year %>"><%= company %></a> | 
+<%# company.includes(:invoices).map{|company| company.invoice.sum(:amount)}.sum %>
 <%# @income_by_company.sort.each do |company, trips| %>
-
-<%# company %> - $<%# company.sum_amount %> 
-			<%# render partial: "shared/income", collection: company, as: :trip %>
-<br>
 <% end %>
