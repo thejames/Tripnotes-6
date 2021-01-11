@@ -62,7 +62,7 @@ class TripsController < ApplicationController
 			# @income_by_company = current_user.trips.joins(:invoices).business.income.where("start_date > ? AND end_date < ?", start_params, end_params).group_by{ |t| t.company_name }.collect(:amount).sum
 			@companies_list = current_user.trips.business.where("start_date > ? AND end_date < ?", start_params, end_params).collect(&:company_name).uniq
 
-			@The_Income = current_user.trips.joins(:invoices).business.income.where("start_date > ? AND end_date < ? AND company_name = ?", start_params, end_params, company_name).sum(:amount)
+			@The_Income = current_user.trips.joins(:invoices).business.income.where("start_date >= ? AND end_date <= ? AND company_name = ?", start_params, end_params, company_name).sum(:amount)
 			# select * from trips where company_name = NAME, join invoices, sum amount 
 			# @income = Trip.invoices.sum
 			# @income_by_company = current_user.trips.joins(:invoices).business.income.where("start_date > ? AND end_date < ?", start_params, end_params).collect(&:company_name).uniq
