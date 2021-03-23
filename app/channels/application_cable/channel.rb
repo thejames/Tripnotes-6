@@ -1,10 +1,10 @@
 module ApplicationCable
-  class Channel < ActionCable::Channel::Base
-    identified_by :current_user
+  # class Channel < ActionCable::Channel::Base
+  #   identified_by :current_user
 
-    def connect
-      self.current_user = current_user
-    end
+  #   def connect
+  #     self.current_user = current_user
+  #   end
 
     private
 
