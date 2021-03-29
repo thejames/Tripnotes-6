@@ -6,12 +6,12 @@ class TripsController < ApplicationController
 
 	# GET /trips
 	def index
-		@trips = current_user.trips.past
+		@trips = current_user.trips.past.paginate(page: params[:page])
 		if !params[:year].blank?
 			start_params = params[:year] + "-01-01"
 			end_params = params[:year] + "-12-31"
 
-			@trips = current_user.trips.where("start_date > ? AND end_date < ?", start_params, end_params).sort_by(&:start_date)
+			@trips = current_user.trips.where("start_date > ? AND end_date < ?", start_params, end_params).sort_by(&:start_date).paginate(page: params[:page])
 			@trip_category = params[:year].to_s
 		end
 		@trip_years = @trips.group_by{ |t| t.start_date.beginning_of_year }
@@ -21,6 +21,7 @@ class TripsController < ApplicationController
 
 	def business
 		@trip_category = "Business"
+		@trips = Trip.business.paginate(page: params[:page])
 		@trip_years = current_user.trips.business.past.group_by{ |t| t.start_date.beginning_of_year }
 		@trip_months = current_user.trips.business.past.group_by{ |t| t.start_date.beginning_of_month }
 		@trips_this_year = current_user.trips.business.past.ytd
@@ -30,6 +31,7 @@ class TripsController < ApplicationController
 
 	def personal
 		@trip_category = "Personal"
+		@trips = Trip.personal.paginate(page: params[:page])
 		@trip_years = current_user.trips.personal.past.group_by{ |t| t.start_date.beginning_of_year }
 		@trip_months = current_user.trips.personal.past.group_by{ |t| t.start_date.beginning_of_month }
 		@trips_this_year = current_user.trips.personal.past.ytd
@@ -38,7 +40,8 @@ class TripsController < ApplicationController
 	end
 
 	def unpaid
-		@trip_category = "Unpaid "
+		@trip_category = "Unpaid"
+		@trips = Trip.unpaid.paginate(page: params[:page])
 		@trip_years = current_user.trips.business.unpaid.past.group_by{ |t| t.start_date.beginning_of_year }
 		@trip_months = current_user.trips.business.unpaid.past.group_by{ |t| t.start_date.beginning_of_month }
 		@trips_this_year = current_user.trips.unpaid.past.ytd
@@ -82,7 +85,7 @@ class TripsController < ApplicationController
 			end_params = params[:year] + "-12-31"
 		end
 		
-		@trips = current_user.trips.business.where("start_date > ? AND end_date < ? AND company_name = ?", start_params, end_params, "Global Med").sort_by(&:start_date)
+		@trips = current_user.trips.business.where("start_date > ? AND end_date < ? AND company_name = ?", start_params, end_params, "Global Med").sort_by(&:start_date)#.paginate(page: params[:page])
 		@trip_category = params[:year].to_s
 
 		@trip_years = @trips.group_by{ |t| t.start_date.beginning_of_year }

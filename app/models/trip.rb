@@ -15,6 +15,8 @@ class Trip < ApplicationRecord
 	scope :expenses, -> { where( invoices: {is_income: false} )}
 	scope :income, -> { where( invoices: {is_income: true} )}
 
+	self.per_page = 20
+
 	# scope :previous_trip, -> { where(end_date: < end_date ) }
 
 	def previous_trip
