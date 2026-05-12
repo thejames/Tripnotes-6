@@ -1,11 +1,9 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
 one:
-  content: MyText
-  category: one
+  content: Remember to pack extra supplies
+  note_category: one
   trip: one
 
 two:
-  content: MyText
-  category: two
+  content: Hotel confirmation number 12345
+  note_category: two
   trip: two

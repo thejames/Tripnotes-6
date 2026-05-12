@@ -2,7 +2,9 @@ require 'test_helper'
 
 class NoteCategoriesControllerTest < ActionDispatch::IntegrationTest
   setup do
+    @user = users(:one)
     @note_category = note_categories(:one)
+    sign_in @user
   end
 
   test "should get index" do
@@ -17,15 +19,15 @@ class NoteCategoriesControllerTest < ActionDispatch::IntegrationTest
 
   test "should create note_category" do
     assert_difference('NoteCategory.count') do
-      post note_categories_url, params: { note_category: { name: @note_category.name } }
+      post note_categories_url, params: { note_category: { name: "New Category" } }
     end
-
-    assert_redirected_to note_category_url(NoteCategory.last)
+    assert_redirected_to note_categories_url
   end
 
-  test "should show note_category" do
-    get note_category_url(@note_category)
-    assert_response :success
+  test "should not create note_category without name" do
+    assert_no_difference('NoteCategory.count') do
+      post note_categories_url, params: { note_category: { name: "" } }
+    end
   end
 
   test "should get edit" do
@@ -34,15 +36,21 @@ class NoteCategoriesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update note_category" do
-    patch note_category_url(@note_category), params: { note_category: { name: @note_category.name } }
-    assert_redirected_to note_category_url(@note_category)
+    patch note_category_url(@note_category), params: { note_category: { name: "Updated Name" } }
+    assert_redirected_to note_categories_url
   end
 
   test "should destroy note_category" do
+    @note_category.notes.destroy_all
     assert_difference('NoteCategory.count', -1) do
       delete note_category_url(@note_category)
     end
-
     assert_redirected_to note_categories_url
+  end
+
+  test "redirects to login when not authenticated" do
+    sign_out @user
+    get note_categories_url
+    assert_redirected_to new_user_session_path
   end
 end

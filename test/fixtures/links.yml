@@ -1,11 +1,9 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
 one:
   trip: one
-  title: MyString
-  url: MyString
+  title: Hotel Booking
+  url: https://hotels.com/booking/123
 
 two:
   trip: two
-  title: MyString
-  url: MyString
+  title: Flight Details
+  url: https://airline.com/flight/456

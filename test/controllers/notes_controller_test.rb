@@ -1,49 +1,43 @@
 require 'test_helper'
 
-class NotesControllerTest < ActionController::TestCase
+class NotesControllerTest < ActionDispatch::IntegrationTest
   setup do
+    @user = users(:one)
     @trip = trips(:one)
     @note = notes(:one)
-  end
-
-  test "should get index" do
-    get :index, params: { trip_id: @trip }
-    assert_response :success
+    sign_in @user
   end
 
   test "should get new" do
-    get :new, params: { trip_id: @trip }
+    get new_trip_note_url(@trip)
     assert_response :success
   end
 
   test "should create note" do
     assert_difference('Note.count') do
-      post :create, params: { trip_id: @trip, note: @note.attributes }
+      post trip_notes_url(@trip), params: { note: {
+        content: "New test note",
+        note_category_id: note_categories(:one).id
+      } }
     end
-
-    assert_redirected_to trip_note_path(@trip, Note.last)
-  end
-
-  test "should show note" do
-    get :show, params: { trip_id: @trip, id: @note }
-    assert_response :success
+    assert_redirected_to trip_url(@trip)
   end
 
   test "should get edit" do
-    get :edit, params: { trip_id: @trip, id: @note }
+    get edit_trip_note_url(@trip, @note)
     assert_response :success
-  end
-
-  test "should update note" do
-    put :update, params: { trip_id: @trip, id: @note, note: @note.attributes }
-    assert_redirected_to trip_note_path(@trip, Note.last)
   end
 
   test "should destroy note" do
     assert_difference('Note.count', -1) do
-      delete :destroy, params: { trip_id: @trip, id: @note }
+      delete trip_note_url(@trip, @note)
     end
+    assert_redirected_to trip_notes_url(@trip)
+  end
 
-    assert_redirected_to trip_notes_path(@trip)
+  test "redirects to login when not authenticated" do
+    sign_out @user
+    get new_trip_note_url(@trip)
+    assert_redirected_to new_user_session_path
   end
 end

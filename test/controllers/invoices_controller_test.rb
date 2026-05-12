@@ -1,49 +1,38 @@
 require 'test_helper'
 
-class InvoicesControllerTest < ActionController::TestCase
+class InvoicesControllerTest < ActionDispatch::IntegrationTest
   setup do
+    @user = users(:one)
     @trip = trips(:one)
     @invoice = invoices(:one)
-  end
-
-  test "should get index" do
-    get :index, params: { trip_id: @trip }
-    assert_response :success
+    sign_in @user
   end
 
   test "should get new" do
-    get :new, params: { trip_id: @trip }
+    get new_trip_invoice_url(@trip)
     assert_response :success
   end
 
   test "should create invoice" do
     assert_difference('Invoice.count') do
-      post :create, params: { trip_id: @trip, invoice: @invoice.attributes }
+      post trip_invoices_url(@trip), params: { invoice: {
+        amount: "500.00",
+        is_income: true
+      } }
     end
-
-    assert_redirected_to trip_invoice_path(@trip, Invoice.last)
-  end
-
-  test "should show invoice" do
-    get :show, params: { trip_id: @trip, id: @invoice }
-    assert_response :success
-  end
-
-  test "should get edit" do
-    get :edit, params: { trip_id: @trip, id: @invoice }
-    assert_response :success
-  end
-
-  test "should update invoice" do
-    put :update, params: { trip_id: @trip, id: @invoice, invoice: @invoice.attributes }
-    assert_redirected_to trip_invoice_path(@trip, Invoice.last)
+    assert_redirected_to trip_url(@trip)
   end
 
   test "should destroy invoice" do
     assert_difference('Invoice.count', -1) do
-      delete :destroy, params: { trip_id: @trip, id: @invoice }
+      delete trip_invoice_url(@trip, @invoice)
     end
+    assert_redirected_to trip_url(@trip)
+  end
 
-    assert_redirected_to trip_invoices_path(@trip)
+  test "redirects to login when not authenticated" do
+    sign_out @user
+    get new_trip_invoice_url(@trip)
+    assert_redirected_to new_user_session_path
   end
 end

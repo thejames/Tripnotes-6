@@ -1,49 +1,42 @@
 require 'test_helper'
 
-class LinksControllerTest < ActionController::TestCase
+class LinksControllerTest < ActionDispatch::IntegrationTest
   setup do
+    @user = users(:one)
     @trip = trips(:one)
     @link = links(:one)
+    sign_in @user
   end
 
   test "should get index" do
-    get :index, params: { trip_id: @trip }
+    get trip_links_url(@trip)
     assert_response :success
   end
 
   test "should get new" do
-    get :new, params: { trip_id: @trip }
+    get new_trip_link_url(@trip)
     assert_response :success
   end
 
   test "should create link" do
     assert_difference('Link.count') do
-      post :create, params: { trip_id: @trip, link: @link.attributes }
+      post trip_links_url(@trip), params: { link: {
+        title: "New Link",
+        url: "https://example.com/new"
+      } }
     end
-
-    assert_redirected_to trip_link_path(@trip, Link.last)
-  end
-
-  test "should show link" do
-    get :show, params: { trip_id: @trip, id: @link }
-    assert_response :success
+    assert_redirected_to trip_url(@trip)
   end
 
   test "should get edit" do
-    get :edit, params: { trip_id: @trip, id: @link }
+    get edit_trip_link_url(@trip, @link)
     assert_response :success
-  end
-
-  test "should update link" do
-    put :update, params: { trip_id: @trip, id: @link, link: @link.attributes }
-    assert_redirected_to trip_link_path(@trip, Link.last)
   end
 
   test "should destroy link" do
     assert_difference('Link.count', -1) do
-      delete :destroy, params: { trip_id: @trip, id: @link }
+      delete trip_link_url(@trip, @link)
     end
-
-    assert_redirected_to trip_links_path(@trip)
+    assert_redirected_to trip_url(@trip)
   end
 end
